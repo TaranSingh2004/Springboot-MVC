@@ -1,6 +1,7 @@
 package org.example.HelloWorld.DAO;
 
 import org.example.HelloWorld.Components.IplTeam;
+import org.example.HelloWorld.DbConnect;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
@@ -20,8 +21,7 @@ public class Dao {
 
     public ArrayList<IplTeam> getIplTeams() throws ClassNotFoundException, SQLException {
         ArrayList<IplTeam> list = new ArrayList<IplTeam>();
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/my_database", "root", "2004");
+        Connection con = DbConnect.dbconnect();
         Statement st = con.createStatement();
         ResultSet rs = st.executeQuery("select * from iplTeams");
         while(rs.next()){
@@ -34,6 +34,18 @@ public class Dao {
             list.add(iplTeam);
         }
         return list;
+    }
+
+    public String insertIplTeam(IplTeam iplTeam) throws ClassNotFoundException, SQLException {
+        Connection con = DbConnect.dbconnect();
+        PreparedStatement ps = con.prepareStatement("insert into iplTeams values(?, ?, ?, ?)");
+        ps.setString(1, iplTeam.getTeamName());
+        ps.setInt(2, iplTeam.getTrophies());
+        ps.setString(3, iplTeam.getTeamOwnerName());
+        ps.setString(4, iplTeam.getTeamCaptainName());
+        ps.executeUpdate();
+        return "item inerted";
+
     }
 
 }

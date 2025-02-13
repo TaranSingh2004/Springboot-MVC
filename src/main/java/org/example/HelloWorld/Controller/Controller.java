@@ -4,6 +4,8 @@ import org.example.HelloWorld.Components.IplTeam;
 import org.example.HelloWorld.service.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.Serial;
@@ -26,5 +28,10 @@ public class Controller {
     public ArrayList<IplTeam> getTeams() throws SQLException, ClassNotFoundException {
         ArrayList<IplTeam> teamList = service.getTeamsJDBC();
         return teamList;
+    }
+
+    @PostMapping("/iplTeam")
+    public String insertIplTeams(@RequestBody IplTeam iplTeam) throws SQLException, ClassNotFoundException {
+        return service.saveIplTeams(iplTeam);
     }
 }
