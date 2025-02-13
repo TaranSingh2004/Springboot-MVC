@@ -22,4 +22,9 @@ public class Service {
         ArrayList<IplTeam> iplTeams = dao.getIplTeams();
         return iplTeams;
     }
+
+    public String saveIplTeams(IplTeam iplTeam) throws SQLException, ClassNotFoundException {
+        String str = dao.insertIplTeam(iplTeam);
+        return str;
+    }
 }
